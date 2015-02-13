@@ -1,5 +1,5 @@
 //
-//  ViewController.h
+//  Game.h
 //  PongTest
 //
 //  Created by it-högskolan on 2015-02-13.
@@ -8,9 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController
-
-
+@interface Game : UIViewController
 
 @end
-
