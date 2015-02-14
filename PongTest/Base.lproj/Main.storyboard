@@ -74,18 +74,6 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <gestureRecognizers/>
                             </imageView>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Pu9-4T-Rtd">
-                                <rect key="frame" x="102" y="284" width="119" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-CondensedBold" family="Helvetica Neue" pointSize="40"/>
-                                <state key="normal" title="Exit">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <segue destination="vXZ-lx-hvc" kind="modal" id="QUC-C2-eKS"/>
-                                </connections>
-                            </button>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You Lose!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Rvf-Xa-GDX">
                                 <rect key="frame" x="72" y="100" width="163" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -119,7 +107,6 @@
                         <outlet property="AIPlayer" destination="kkB-Do-SNt" id="5xu-Ae-bGW"/>
                         <outlet property="AIScoreLabel" destination="Gxb-4U-l5c" id="jar-7T-tuk"/>
                         <outlet property="ball" destination="LMv-8f-HqB" id="fTm-Le-czZ"/>
-                        <outlet property="exitButton" destination="Pu9-4T-Rtd" id="vOI-4o-vdo"/>
                         <outlet property="humanPlayer" destination="GdN-vb-P0b" id="xUM-YN-Z5r"/>
                         <outlet property="humanScoreLabel" destination="I6j-k0-Bw5" id="cbC-f3-97G"/>
                         <outlet property="startButton" destination="agN-8X-heB" id="GxI-VJ-Q9D"/>
@@ -128,7 +115,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kRk-GX-2Pu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="588" y="315"/>
+            <point key="canvasLocation" x="690" y="281"/>
         </scene>
     </scenes>
     <resources>

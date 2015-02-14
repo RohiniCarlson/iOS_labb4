@@ -12,8 +12,6 @@
 
 @property (weak, nonatomic) IBOutlet UIButton *startButton;
 
-@property (weak, nonatomic) IBOutlet UIButton *exitButton;
-
 @property (weak, nonatomic) IBOutlet UIImageView *ball;
 
 @property (weak, nonatomic) IBOutlet UIImageView *humanPlayer;
