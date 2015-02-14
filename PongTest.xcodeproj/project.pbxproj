@@ -15,6 +15,7 @@
 		441488971A8DED54002A7BF0 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 441488951A8DED54002A7BF0 /* LaunchScreen.xib */; };
 		441488A31A8DED54002A7BF0 /* PongTestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 441488A21A8DED54002A7BF0 /* PongTestTests.m */; };
 		441488AE1A8E034F002A7BF0 /* Game.m in Sources */ = {isa = PBXBuildFile; fileRef = 441488AD1A8E034F002A7BF0 /* Game.m */; };
+		44149F2C1A8EBC05000B4A4D /* bounce.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 44149F2B1A8EBC05000B4A4D /* bounce.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,6 +44,7 @@
 		441488A21A8DED54002A7BF0 /* PongTestTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PongTestTests.m; sourceTree = "<group>"; };
 		441488AC1A8E034F002A7BF0 /* Game.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Game.h; sourceTree = "<group>"; };
 		441488AD1A8E034F002A7BF0 /* Game.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Game.m; sourceTree = "<group>"; };
+		44149F2B1A8EBC05000B4A4D /* bounce.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = bounce.mp3; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -91,6 +93,7 @@
 				441488901A8DED54002A7BF0 /* Main.storyboard */,
 				441488AC1A8E034F002A7BF0 /* Game.h */,
 				441488AD1A8E034F002A7BF0 /* Game.m */,
+				44149F2B1A8EBC05000B4A4D /* bounce.mp3 */,
 				441488931A8DED54002A7BF0 /* Images.xcassets */,
 				441488951A8DED54002A7BF0 /* LaunchScreen.xib */,
 				441488861A8DED54002A7BF0 /* Supporting Files */,
@@ -207,6 +210,7 @@
 				441488921A8DED54002A7BF0 /* Main.storyboard in Resources */,
 				441488971A8DED54002A7BF0 /* LaunchScreen.xib in Resources */,
 				441488941A8DED54002A7BF0 /* Images.xcassets in Resources */,
+				44149F2C1A8EBC05000B4A4D /* bounce.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -418,6 +422,7 @@
 				441488A81A8DED54002A7BF0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		441488A91A8DED54002A7BF0 /* Build configuration list for PBXNativeTarget "PongTestTests" */ = {
 			isa = XCConfigurationList;
@@ -426,6 +431,7 @@
 				441488AB1A8DED54002A7BF0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
