@@ -36,6 +36,8 @@
 @property (nonatomic) float Y;
 @property (nonatomic) int AIScore;
 @property (nonatomic) int HumanScore;
+@property (nonatomic) int pause;
+@property (nonatomic) float fingerX;
 
 @end
 
@@ -58,13 +60,15 @@
     [self getScreenWidthHeight];
     self.HumanScore = 0;
     self.AIScore = 0;
+    self.pause = 0;
+    self.fingerX = -1.0f;
     NSURL *url = [NSURL fileURLWithPath:[[NSBundle mainBundle]
                                          pathForResource:@"bounce"
                                          ofType:@"mp3"]];
     self.audioPlayer = [[AVAudioPlayer alloc]
                                   initWithContentsOfURL:url
                                   error:nil];
-    //[self.audioPlayer play];
+    [self.audioPlayer play];
     
 }
 
@@ -75,7 +79,11 @@
 
 - (IBAction)startButtonClicked:(id)sender {
     self.startButton.hidden = YES;
-     self.winLoseMessage.hidden = YES;
+    self.winLoseMessage.hidden = YES;
+    self.HumanScore = 0;
+    self.AIScore = 0;
+    self.humanScoreLabel.text = [NSString stringWithFormat:@"%d",self.HumanScore];
+    self.AIScoreLabel.text = [NSString stringWithFormat:@"%d",self.AIScore];
     [self initializeBallMovement];
     self.timer = [NSTimer scheduledTimerWithTimeInterval:0.01 target:self selector:@selector(moveBall) userInfo:nil repeats:YES];
 }
@@ -83,10 +91,11 @@
 -(void)initializeBallMovement {
     
     [self placeObjects];
-    self.Y = arc4random() % 11;
-    self.Y = self.Y-5; // gives 50% chance of moving up or down
-    self.X = arc4random() % 11;
-    self.X = self.X-5; // gives 50% of moving right or left
+    self.pause = 50;
+    self.Y = arc4random() % 7;
+    self.Y = self.Y-3; // gives 50% chance of moving up or down
+    self.X = arc4random() % 7;
+    self.X = self.X-3; // gives 50% of moving right or left
     if (self.Y == 0) {
         self.Y = 1; // Ensures that the ball does not just move left and right
     }
@@ -97,58 +106,91 @@
 
 -(void) touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event{
     UITouch *slide = [[event allTouches]anyObject];
-    
     CGPoint position = [slide locationInView:self.view];
-    
-    if(position.x > self.humanPlayer.center.x) {
-       self.humanPlayer.center = CGPointMake(self.humanPlayer.center.x+4.0f, self.humanPlayer.center.y);
-    } else if (position.x < self.humanPlayer.center.x){
-       self.humanPlayer.center = CGPointMake(self.humanPlayer.center.x-4.0f, self.humanPlayer.center.y);
-    }
-    
-
-
-     if (self.humanPlayer.center.x < 35.0f) {
-        self.humanPlayer.center = CGPointMake(35.0f, self.humanPlayer.center.y);
-     }
-     if(self.humanPlayer.center.x > self.screenWidth-35.0f) {
-        self.humanPlayer.center = CGPointMake(self.screenWidth-35.0f, self.humanPlayer.center.y);
-     }
-     
+    self.fingerX = position.x;
 }
 
--(void)collision {
-    if(CGRectIntersectsRect(self.ball.frame, self.humanPlayer.frame)) {
-        self.Y = arc4random() %5;
-        self.Y = self.Y-5;
-        // play sound
-        [self.audioPlayer play];
-    }
-    if(CGRectIntersectsRect(self.ball.frame, self.AIPlayer.frame)) {
-        self.Y = arc4random() %5;
-        // play sound
-        [self.audioPlayer play];
-    }
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    
+    UITouch *touch = [[event allTouches] anyObject];
+    CGPoint position = [touch locationInView:self.view];
+    self.fingerX = position.x;
+}
+
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+    
+    self.fingerX = -1.0f;
+}
+
+-(void) movePlayerPaddle {
+    [self movePaddle: self.humanPlayer andXValue: self.fingerX andSpeed:2.5f];
 }
 
 -(void) moveAIPlayerPaddle {
-    if(self.ball.center.x < self.AIPlayer.center.x){
-        self.AIPlayer.center = CGPointMake(self.AIPlayer.center.x-2, self.AIPlayer.center.y);
+    [self movePaddle: self.AIPlayer andXValue: self.ball.center.x andSpeed:1.0f];
+}
+
+-(void) movePaddle:(UIImageView*) paddle andXValue:(float)targetX andSpeed:(float) speed {
+    if(targetX<0.0f) {
+        return;
     }
-    if(self.ball.center.x > self.AIPlayer.center.x) {
-        self.AIPlayer.center = CGPointMake(self.AIPlayer.center.x+2, self.AIPlayer.center.y);
+    if(targetX > paddle.center.x+6.0f) {
+        paddle.center = CGPointMake(paddle.center.x+speed, paddle.center.y);
+    } else if (targetX < paddle.center.x-6.0f){
+        paddle.center = CGPointMake(paddle.center.x-speed, paddle.center.y);
     }
     
-    if (self.AIPlayer.center.x < 35.0f) {
-        self.AIPlayer.center = CGPointMake(35.0f, self.AIPlayer.center.y);
+    if (paddle.center.x < 35.0f) {
+        paddle.center = CGPointMake(35.0f, paddle.center.y);
+    } else if(paddle.center.x > self.screenWidth-35.0f) {
+        paddle.center = CGPointMake(self.screenWidth-35.0f, paddle.center.y);
     }
-    if(self.AIPlayer.center.x > self.screenWidth-35.0f) {
-        self.AIPlayer.center = CGPointMake(self.screenWidth-35.0f, self.AIPlayer.center.y);
+    
+}
+
+-(void)adjustX:(float) xOffset {
+    if(abs(xOffset)>20) {
+        if((xOffset<-34.0f && self.X>0.0f) || (xOffset>34.0f && self.X<0.0f)) {
+            self.X = -self.X;
+        } else {
+           float speedAdjust = 1.0f + (abs(xOffset)-20)/15;
+           if((xOffset<0.0f && self.X>0.0f) || (xOffset>0.0f && self.X<0.0f)) {
+              if(self.X>0.5f || self.X<-0.5f) {
+                 self.X = self.X/speedAdjust;
+              }
+           } else {
+              self.X = self.X*speedAdjust;
+           }
+        }
+    }
+}
+
+-(void)collision {
+    if(self.Y>0.0f && CGRectIntersectsRect(self.ball.frame, self.humanPlayer.frame) && self.ball.center.y < self.screenHeight-30.0f) {
+        // bounce and increment speed
+        self.Y = -(self.Y + 0.1f);
+        [self adjustX: (self.ball.center.x - self.humanPlayer.center.x)];
+        // play sound
+        [self.audioPlayer play];
+    }
+    if(self.Y<0.0f && CGRectIntersectsRect(self.ball.frame, self.AIPlayer.frame) && self.ball.center.y > 30.0f) {
+        // bounce and increment speed
+        self.Y = -self.Y + 0.1f;
+        [self adjustX: (self.ball.center.x - self.AIPlayer.center.x )];
+        // play sound
+        [self.audioPlayer play];
     }
 }
 
 -(void) moveBall {
     [self moveAIPlayerPaddle];
+    [self movePlayerPaddle];
+    
+    if(self.pause > 0) {
+        self.pause = self.pause-1;
+        return;
+    }
+
     [self collision];
     self.ball.center = CGPointMake(self.ball.center.x + self.X, self.ball.center.y + self.Y);
     if(self.ball.center.x < 15){
@@ -177,20 +219,12 @@
         [self.timer invalidate];
         self.winLoseMessage.hidden = NO;
         self.winLoseMessage.text = [NSString stringWithFormat:@"You Win!"];
-        self.HumanScore = 0;
-        self.AIScore = 0;
-        self.humanScoreLabel.text = [NSString stringWithFormat:@"%d",self.HumanScore];
-        self.AIScoreLabel.text = [NSString stringWithFormat:@"%d",self.AIScore];
         [self placeObjects];
     } else if (self.AIScore == 5) {
         [self.timer invalidate];
         self.startButton.hidden = NO;
         self.winLoseMessage.hidden = NO;
         self.winLoseMessage.text = [NSString stringWithFormat:@"You Lose!"];
-        self.HumanScore = 0;
-        self.AIScore = 0;
-        self.humanScoreLabel.text = [NSString stringWithFormat:@"%d",self.HumanScore];
-        self.AIScoreLabel.text = [NSString stringWithFormat:@"%d",self.AIScore];
         [self placeObjects];
     }
 }
