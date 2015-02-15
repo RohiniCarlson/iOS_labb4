@@ -149,7 +149,7 @@
             self.X = -self.X;
         } else {
            float speedAdjust = 1.0f + (abs(xOffset)-20)/15; // calculates the speed.
-           if((xOffset<0.0f && self.X>0.0f) || (xOffset>0.0f && self.X<0.0f)) { // ball hits paddle closer to the middle, speed is decreased.
+           if((xOffset<0.0f && self.X>0.0f) || (xOffset>0.0f && self.X<0.0f)) { // ball hits near side of paddle, speed is decreased.
               if(self.X>0.5f || self.X<-0.5f) { // check to ensure that X does not become equal to zero.
                  self.X = self.X/speedAdjust;
               }
@@ -164,13 +164,13 @@
     if(self.Y>0.0f && CGRectIntersectsRect(self.ball.frame, self.humanPlayer.frame) && self.ball.center.y < self.screenHeight-30.0f) {
         // bounce and increment speed
         self.Y = -(self.Y + 0.1f);
-        [self adjustX:(self.ball.center.x - self.humanPlayer.center.x)];
+        [self adjustX:(self.ball.center.x - self.humanPlayer.center.x)]; // Adjusts x accordingly depending on where the ball hits the paddle.
         [self.audioPlayer play];
     }
     if(self.Y<0.0f && CGRectIntersectsRect(self.ball.frame, self.AIPlayer.frame) && self.ball.center.y > 30.0f) {
         // bounce and increment speed
         self.Y = -self.Y + 0.1f;
-        [self adjustX:(self.ball.center.x - self.AIPlayer.center.x )];
+        [self adjustX:(self.ball.center.x - self.AIPlayer.center.x )]; // Adjusts x accordingly depending on where the ball hits the paddle.
         [self.audioPlayer play];
     }
 }
