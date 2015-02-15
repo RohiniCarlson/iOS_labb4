@@ -34,6 +34,7 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                     <connections>
                         <outlet property="blueAnim" destination="5jM-sO-eLz" id="zRk-AA-oq7"/>
+                        <outlet property="gameTitle" destination="L79-2U-4Py" id="RI3-H6-UpC"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>

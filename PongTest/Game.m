@@ -45,10 +45,13 @@
     self.ball.center = CGPointMake(self.screenWidth/2.0f, self.screenHeight/2.0f);
     self.humanPlayer.center = CGPointMake(self.screenWidth/2.0f, self.screenHeight-30.0f);
     self.AIPlayer.center = CGPointMake(self.screenWidth/2.0f, 30.0f);
+    
 }
 
 -(void)viewDidLayoutSubviews{
     [self placeObjects];
+    self.AIScoreLabel.center = CGPointMake(50.0f, 30.0f);
+    self.humanScoreLabel.center = CGPointMake(50.0f, self.screenHeight-30.0f);
     self.startButton.center = CGPointMake(self.screenWidth/2.0f, self.screenHeight/2.0f);
 }
 
